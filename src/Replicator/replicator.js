@@ -5,6 +5,7 @@ let qs = require("querystring");
 let request = Promise.promisify(require("request"));
 let emitter = require("global-queue");
 let constellation = require(_base + '/config/Constellation');
+let EventRegistry = require(_base + '/Engine/EventRegistry.js');
 
 //UTILITY
 
@@ -168,8 +169,8 @@ class Replicator {
 			let usr = val.usr;
 			let pwd = val.pwd;
 			//TODO: onDrop, onRestore
-			let drop = this.getEvents("permission").dropped("ip", ip);
-			let rest = this.getEvents("permission").restored("ip", ip);
+			let drop = EventRegistry.getEvents("permission").dropped("ip", ip);
+			let rest = EventRegistry.getEvents("permission").restored("ip", ip);
 			console.log("Replicator: Now watching host ", ip);
 			this.emitter.on(drop, _.bind(this.inactive, this));
 			this.emitter.on(rest, _.bind(this.active, this));
