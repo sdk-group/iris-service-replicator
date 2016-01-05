@@ -4,8 +4,8 @@ let _ = require("lodash");
 let qs = require("querystring");
 let request = Promise.promisify(require("request"));
 let emitter = require("global-queue");
-let constellation = require(_base + '/config/Constellation');
-let EventRegistry = require(_base + '/Engine/EventRegistry.js');
+let constellation = require('service-engine').Constellation;
+let EventRegistry = require('service-engine').EventRegistry;
 
 //UTILITY
 
