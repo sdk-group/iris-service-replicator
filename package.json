@@ -38,7 +38,7 @@
 	},
 	"dependencies": {
 		"bluebird": "^3.1.1",
-		"lodash": "^3.10.1",
+		"lodash": "^4.0.0",
 		"request": "^2.67.0",
 		"iris-service-engine": "git+https://github.com/sdk-group/service-engine.git"
 	}
