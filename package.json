@@ -30,9 +30,9 @@
   "homepage": "https://github.com/sdk-group/iris-service-replicator#readme",
   "devDependencies": {
     "babel-preset-es2015-node5": "^1.1.2",
-    "babel-preset-node5": "^10.5.0",
+    "babel-preset-node5": "^10.6.0",
     "chai": "^3.5.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-changed": "^1.3.0",
     "gulp-concat": "^2.6.0",
@@ -40,15 +40,15 @@
     "gulp-livereload": "^3.8.1",
     "gulp-mocha": "^2.2.0",
     "gulp-nodemon": "^2.0.6",
-    "gulp-plumber": "^1.0.1",
+    "gulp-plumber": "^1.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-watch": "^4.3.5"
   },
   "dependencies": {
-    "bluebird": "^3.2.1",
+    "bluebird": "^3.3.1",
     "gulp-babel": "^6.1.2",
     "iris-service-engine": "git+https://github.com/sdk-group/service-engine.git",
-    "lodash": "^4.2.1",
+    "lodash": "^4.5.1",
     "request": "^2.69.0"
   }
 }
