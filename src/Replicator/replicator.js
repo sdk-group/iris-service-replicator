@@ -4,12 +4,14 @@ let _ = require("lodash");
 let qs = require("querystring");
 let request = Promise.promisify(require("request"));
 let emitter = require("global-queue");
-let constellation = require('iris-service-engine').Constellation;
-let EventRegistry = require('iris-service-engine').EventRegistry;
+let constellation = require('iris-service-engine')
+	.Constellation;
+let EventRegistry = require('iris-service-engine')
+	.EventRegistry;
 
 //UTILITY
 
-let createReplication = function(ip, sb, dhost, db, usr, pwd) {
+let createReplication = function (ip, sb, dhost, db, usr, pwd) {
 	let postData = qs.stringify({
 		fromBucket: sb,
 		toCluster: dhost,
@@ -34,7 +36,7 @@ let createReplication = function(ip, sb, dhost, db, usr, pwd) {
 	return request(options);
 }
 
-let setSettings = function(ip, usr, pwd, ref = false, settings) {
+let setSettings = function (ip, usr, pwd, ref = false, settings) {
 	let postData = qs.stringify(settings);
 	let uri = ref ? '/settings/replications/' + encodeURIComponent(ref) : '/settings/replications';
 	let options = {
@@ -55,7 +57,7 @@ let setSettings = function(ip, usr, pwd, ref = false, settings) {
 	return request(options);
 }
 
-let getSettings = function(ip, usr, pwd, ref = false) {
+let getSettings = function (ip, usr, pwd, ref = false) {
 	let uri = ref ? '/settings/replications/' + encodeURIComponent(ref) : '/settings/replications';
 	let options = {
 		uri: uri,
@@ -69,7 +71,7 @@ let getSettings = function(ip, usr, pwd, ref = false) {
 	return request(options);
 };
 
-let removeReplication = function(ip, ref, usr, pwd) {
+let removeReplication = function (ip, ref, usr, pwd) {
 	let options = {
 		uri: '/controller/cancelXDCR/' + encodeURIComponent(ref),
 		baseUrl: "http://" + [ip, 8091].join(":"),
@@ -83,7 +85,7 @@ let removeReplication = function(ip, ref, usr, pwd) {
 	return request(options);
 }
 
-let getReferences = function(ip, usr, pwd) {
+let getReferences = function (ip, usr, pwd) {
 	let options = {
 		uri: '/pools/default/remoteClusters',
 		baseUrl: "http://" + [ip, 8091].join(":"),
@@ -96,7 +98,8 @@ let getReferences = function(ip, usr, pwd) {
 
 	return request(options)
 		.then((res) => {
-			let response = JSON.parse(res[0].toJSON().body);
+			let response = JSON.parse(res[0].toJSON()
+				.body);
 			//            console.log("CLUSTER RESPONDED", ip, _.filter(response, {
 			//                deleted: false
 			//            }));
@@ -113,7 +116,7 @@ let getReferences = function(ip, usr, pwd) {
 		});
 }
 
-let getStatistics = function(ip, sbucket, usr, pwd, ref) {
+let getStatistics = function (ip, sbucket, usr, pwd, ref) {
 	let uri = '/pools/default/buckets/' + sbucket + '/stats/' + encodeURIComponent(ref);
 	let options = {
 		uri: uri,
@@ -127,7 +130,7 @@ let getStatistics = function(ip, sbucket, usr, pwd, ref) {
 	return request(options);
 };
 
-let mutualMethod = function(method, {
+let mutualMethod = function (method, {
 	src_host: shost,
 	src_bucket: sb,
 	dst_host: dhost,
@@ -169,8 +172,10 @@ class Replicator {
 			let usr = val.usr;
 			let pwd = val.pwd;
 			//TODO: onDrop, onRestore
-			let drop = EventRegistry.getEvents("permission").dropped("ip", ip);
-			let rest = EventRegistry.getEvents("permission").restored("ip", ip);
+			let drop = EventRegistry.getEvents("permission")
+				.dropped("ip", ip);
+			let rest = EventRegistry.getEvents("permission")
+				.restored("ip", ip);
 			console.log("Replicator: Now watching host ", ip);
 			this.emitter.on(drop, _.bind(this.inactive, this));
 			this.emitter.on(rest, _.bind(this.active, this));
@@ -185,9 +190,10 @@ class Replicator {
 			);
 		});
 
-		return Promise.all(promises).then((res) => {
-			return Promise.resolve(true);
-		});
+		return Promise.all(promises)
+			.then((res) => {
+				return Promise.resolve(true);
+			});
 	}
 
 	//API
@@ -220,7 +226,7 @@ class Replicator {
 		//        if (!rid) {
 		//            return Promise.reject(new Error("MISCONFIGURATION", "Unable to get reference for host " + dip + " from host " + ip));
 		//        }
-		if(rid)
+		if (rid)
 			this.rids[[ip, sb, dip, db].join(":")] = rid;
 		//        console.log("GETREF", ref, rid);
 		return rid;
@@ -235,7 +241,7 @@ class Replicator {
 	}) {
 		let src = this.hosts.show(shost);
 		let dst = this.hosts.show(dhost);
-		if(!src) {
+		if (!src) {
 			return Promise.reject(new Error("Configure source host before you ask it for anything, dammit."));
 		}
 		//        if (!src.active || !dst.active) {
@@ -249,7 +255,8 @@ class Replicator {
 				let refstat = [ref, stat].join("/");
 				return getStatistics(src.ip, sb, src.usr, src.pwd, refstat)
 					.then((res) => {
-						let response = JSON.parse(res[0].toJSON().body);
+						let response = JSON.parse(res[0].toJSON()
+							.body);
 						return Promise.resolve(response);
 					});
 			})
@@ -267,7 +274,7 @@ class Replicator {
 	}) {
 		let src = this.hosts.show(shost);
 		let dst = this.hosts.show(dhost);
-		if(!src) {
+		if (!src) {
 			return Promise.reject(new Error("Configure source host before you ask it for anything, dammit."));
 		}
 		//        if (!src.active || !dst.active) {
@@ -286,7 +293,8 @@ class Replicator {
 
 				return promise
 					.then((res) => {
-						let response = JSON.parse(res[0].toJSON().body);
+						let response = JSON.parse(res[0].toJSON()
+							.body);
 						//                        console.log("PARSING", response);
 						return Promise.resolve(response);
 					});
@@ -305,17 +313,18 @@ class Replicator {
 	}) {
 		let src = this.hosts.show(shost);
 		let dst = this.hosts.show(dhost);
-		if(!src) {
+		if (!src) {
 			return Promise.reject(new Error("Configure source host before you ask it for anything, dammit."));
 		}
-		if(!src.active || !dst.active) {
+		if (!src.active || !dst.active) {
 			return Promise.reject(new Error("At least one of provided hosts is unreachable."));
 		}
 
 		return createReplication(src.ip, sb, dhost, db, src.usr, src.pwd)
 			.then((res) => {
-				let response = JSON.parse(res[0].toJSON().body);
-				if(!response.errors)
+				let response = JSON.parse(res[0].toJSON()
+					.body);
+				if (!response.errors)
 					this.rids[[src.ip, sb, dst.ip, db].join(":")] = response.id;
 				return Promise.resolve(response);
 			})
@@ -332,10 +341,10 @@ class Replicator {
 	}) {
 		let src = this.hosts.show(shost);
 		let dst = this.hosts.show(dhost);
-		if(!src) {
+		if (!src) {
 			return Promise.reject(new Error("Configure source host before you ask it for anything, dammit."));
 		}
-		if(!src.active || !dst.active) {
+		if (!src.active || !dst.active) {
 			return Promise.reject(new Error("At least one of provided hosts is unreachable."));
 		}
 
@@ -346,8 +355,9 @@ class Replicator {
 			.then((ref) => {
 				return removeReplication(src.ip, ref, src.usr, src.pwd)
 					.then((res) => {
-						let response = JSON.parse(res[0].toJSON().body);
-						delete this.rids[key];
+						let response = JSON.parse(res[0].toJSON()
+							.body);
+						_.unset(this.rids, key);
 						return Promise.resolve(response);
 					})
 					.catch((err) => {
