@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/sdk-group/iris-service-replicator#readme",
   "devDependencies": {
+    "babel-plugin-remove-comments": "^2.0.0",
     "babel-plugin-transform-remove-console": "^6.5.0",
     "babel-preset-es2015-node5": "^1.2.0",
     "babel-preset-node5": "^11.0.1",
@@ -49,7 +50,7 @@
     "bluebird": "^3.3.4",
     "gulp-babel": "^6.1.2",
     "iris-service-engine": "git+https://github.com/sdk-group/service-engine.git",
-    "lodash": "^4.6.1",
+    "lodash": "^4.8.2",
     "request": "^2.69.0"
   }
 }
