@@ -1,9 +1,7 @@
 'use strict'
-let Promise = require('bluebird');
-let _ = require("lodash");
 let qs = require("querystring");
 let request = Promise.promisify(require("request"));
-let emitter = require("global-queue");
+
 let constellation = require('iris-service-engine')
 	.Constellation;
 let EventRegistry = require('iris-service-engine')
@@ -161,7 +159,7 @@ class Replicator {
 	constructor() {
 		this.rids = {};
 		this.refs = {};
-		this.emitter = emitter;
+		this.emitter = message_bus;
 	}
 
 	init(config) {
