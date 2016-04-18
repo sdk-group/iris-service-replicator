@@ -50,7 +50,7 @@
     "bluebird": "^3.3.5",
     "gulp-babel": "^6.1.2",
     "iris-service-engine": "git+https://github.com/sdk-group/service-engine.git",
-    "lodash": "^4.10.0",
-    "request": "^2.71.0"
+    "lodash": "^4.11.1",
+    "request": "^2.72.0"
   }
 }
