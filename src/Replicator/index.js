@@ -5,16 +5,16 @@ let ways = {
 
 let events = {
 	replication: {
-		create: function(way) {
+		create: function (way) {
 			return 'replication.create.' + way;
 		},
-		remove: function(way) {
+		remove: function (way) {
 			return 'replication.remove.' + way;
 		},
-		pause: function(way) {
+		pause: function (way) {
 			return 'replication.pause.' + way;
 		},
-		resume: function(way) {
+		resume: function (way) {
 			return 'replication.resume.' + way;
 		},
 		settings: "replication.settings",
@@ -56,10 +56,11 @@ let tasks = [{
 
 module.exports = {
 	module: require('./replicator.js'),
+	name: 'replicator',
 	permissions: [],
 	tasks: tasks,
 	events: {
-		group: 'replication',
+		group: 'replicator',
 		shorthands: events.replication
 	}
 };
