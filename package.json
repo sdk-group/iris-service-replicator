@@ -50,6 +50,7 @@
 		"bluebird": "^3.4.3",
 		"gulp-babel": "^6.1.2",
 		"global-queue": "git+https://github.com/artificial-life/global-queue.git#experiments",
+		"iris-builder": "git+https://github.com/sdk-group/iris-builder.git",
 		"lodash": "^4.15.0",
 		"request": "^2.74.0"
 	}
